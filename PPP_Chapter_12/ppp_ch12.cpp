@@ -89,10 +89,79 @@ void Arrow::draw_lines() const
 //----------------------------------------------------------------------
 // Exercise 4
 
-Point n(Graph_lib::Rectangle r)
+Point n(Graph_lib::Rectangle& const r)
 {
+    int x = r.point(0).x + r.width()/2;
+    int y = r.point(0).y;
 
+    return Point{ x,y };
 }
+
+Point s(Graph_lib::Rectangle& const r)
+{
+    int x = r.point(0).x + r.width() / 2;
+    int y = r.point(0).y + r.height();
+
+    return Point{ x,y };
+}
+
+Point e(Graph_lib::Rectangle& const r)
+{
+    int x = r.point(0).x + r.width();
+    int y = r.point(0).y + r.height()/2;
+
+    return Point{ x,y };
+}
+
+Point w(Graph_lib::Rectangle& const r)
+{
+    int x = r.point(0).x;
+    int y = r.point(0).y + r.height() / 2;
+
+    return Point{ x,y };
+}
+
+Point ne(Graph_lib::Rectangle& const r)
+{
+    int x = r.point(0).x + r.width();
+    int y = r.point(0).y;
+
+    return Point{ x,y };
+}
+
+Point nw(Graph_lib::Rectangle& const r)
+{
+    int x = r.point(0).x;
+    int y = r.point(0).y;
+
+    return Point{ x,y };
+}
+
+Point se(Graph_lib::Rectangle& const r)
+{
+    int x = r.point(0).x + r.width();
+    int y = r.point(0).y + r.height();
+
+    return Point{ x,y };
+}
+
+Point sw(Graph_lib::Rectangle& const r)
+{
+    int x = r.point(0).x;
+    int y = r.point(0).y + r.height();
+
+    return Point{ x,y };
+}
+
+Point center(Graph_lib::Rectangle& const r)
+{
+    int x = r.point(0).x + r.width()/2;
+    int y = r.point(0).y + r.height()/2;
+
+    return Point{ x,y };
+}
+
+
 
 
 
@@ -148,13 +217,58 @@ try
     win.wait_for_button();    
     */
 
+    //-----------------------------------------------------------
+    // Ex-03
+    /*
     Graph_lib::Arrow ar1{ Point{300,300}, Point{500,200} };
     ar1.set_head_angle(20);
     ar1.set_head_size(50);
     win.attach(ar1);
     win.wait_for_button();
+    */
 
-   
+    Graph_lib::Rectangle rec1{ Point{150,100},200,100 };
+    win.attach(rec1);
+
+    Point pn = n(rec1);
+    Mark mn{ pn,'x' };
+    win.attach(mn);
+
+    Point ps = s(rec1);
+    Mark ms{ ps,'x' };
+    win.attach(ms);
+
+    Point pe = e(rec1);
+    Mark me{ pe,'x' };
+    win.attach(me);
+
+    Point pw = w(rec1);
+    Mark mw{ pw,'x' };
+    win.attach(mw);
+
+    Point pne = ne(rec1);
+    Mark mne{ pne,'x' };
+    win.attach(mne);
+
+    Point pse = se(rec1);
+    Mark mse{ pse,'x' };
+    win.attach(mse);
+
+    Point psw = sw(rec1);
+    Mark msw{ psw,'x' };
+    win.attach(msw);
+
+    Point pnw = nw(rec1);
+    Mark mnw{ pnw,'x' };
+    win.attach(mnw);
+
+    Point p_center = center(rec1);
+    Mark m_center{ p_center,'x' };
+    win.attach(m_center);
+
+    win.wait_for_button();
+
+    //-----------------------------------------------------------
 
 
 }
