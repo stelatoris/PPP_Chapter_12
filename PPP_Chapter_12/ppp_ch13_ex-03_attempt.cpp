@@ -53,48 +53,76 @@ void Rounded_box::draw_lines() const
 //----------------------------------------------------------------------
 // Exercise 3
 
-Arrow::Arrow(Point tail, Point head)
-    : a{30}, s{20}
+Arrow::Arrow(Point tail, Point head, double angle, double head_l)
+    : pp1{ tail }, pp2{ head }, a{angle}, hl{ head_l }
 {
-    add(tail);
-    add(head);
+    if (a <= 0 || head_l <= 0)
+        error("arrow head length/angle cannot be zero");
+
+    if (get_length() <= 0)  // length of arrow
+        error("arrow length cannot be zero");
+    
+    add(pp1);
+    add(pp2);
+}
+
+Point Arrow::r_arm() const
+{
+    //double angle = get_angle() + a;
+    double m = tan(a*(PI/180)); // convert angle to slope
+
+    int x2, y2;   // coordinates of 2nd point of arrow arm
+
+    x2 = pp2.x + ((hl+ get_angle())/ (sqrt((1 + pow(m, 2)))));  //pp2 is point on arrow head
+
+    y2 = pp2.y + m * ((hl + get_angle())/ (sqrt((1 + pow(m, 2)))));
+
+    return Point{ x2,y2 };
 }
 
 void Arrow::draw_lines() const
 {
-    if (color().visibility()) {
-        Point r_arm;    // right arm of tip
-        Point l_arm;    // left arm of tip
-        double x_diff = point(1).x - point(0).x;
-        double y_diff = point(1).y - point(0).y;
-        double tip_angle = atan2(y_diff, x_diff)*180/PI;
+    
+    Point r_arm = Arrow::r_arm();
+    fl_line(point(0).x, point(0).y, point(1).x, point(1).y);
+    fl_line(pp2.x, pp2.y, r_arm.x, r_arm.y);
+    
 
-        r_arm.x = point(1).x - cos((tip_angle+a) * (PI / 180))*s;
-        r_arm.y = point(1).y - sin((tip_angle+a) * (PI / 180))*s;
-
-        l_arm.x = point(1).x - cos((tip_angle-a) * (PI / 180)) * s;
-        l_arm.y = point(1).y - sin((tip_angle - a) * (PI / 180)) * s;
-
-        Polygon poly;
-        poly.add(Point{ point(1).x, point(1).y });
-        poly.add(r_arm);
-        poly.add(l_arm);
-        poly.set_fill_color(Color::black);
-
-        poly.draw_lines();  // draw arrow head
-        Shape::draw_lines(); // draw arrow line
-    }
 }
 
-//----------------------------------------------------------------------
-// Exercise 4
+/*
+// Ex 3 - Arrow
 
-Point n(Graph_lib::Rectangle r)
+Arrow::Arrow(Point tail, Point tip)
 {
-
+    add(tail);
+    add(tip);
 }
 
+void Arrow::draw_lines() const
+{
+    constexpr double PI = 3.14159265;
 
+    int diff_x = point(1).x - point(0).x;
+    int diff_y = point(1).y - point(0).y;
+    double angle = atan2(diff_y, diff_x)*180/PI;
+
+    double x1 = point(1).x - cos((angle-iso)*PI/180) * size;
+    double y1 = point(1).y - sin((angle-iso)*PI/180) * size;
+
+    double x2 = point(1).x - cos((angle+iso)*PI/180) * size;
+    double y2 = point(1).y - sin((angle+iso)*PI/180) * size;
+
+    Polygon head;
+    head.add(point(1));
+    head.add(Point{int(x1), int(y1)});
+    head.add(Point{int(x2), int(y2)});
+    head.set_fill_color(color());
+
+    head.draw_lines();          // draw arrow head
+    Shape::draw_lines();        // draw line
+}
+*/
 
 int main()
 try
@@ -148,14 +176,37 @@ try
     win.wait_for_button();    
     */
 
-    Graph_lib::Arrow ar1{ Point{300,300}, Point{500,200} };
-    ar1.set_head_angle(20);
-    ar1.set_head_size(50);
+    Graph_lib::Arrow ar1{ Point{300,200},Point{400,300},1.0,50.0 };
     win.attach(ar1);
     win.wait_for_button();
 
-   
+    double m1 = ar1.get_slope();
+    double a1 = ar1.get_angle();
+    double l1 = ar1.get_length();
+    double x1 = ar1.get_p1().x;
+    double y1 = ar1.get_p1().y;
+    double x2 = ar1.get_p2().x;
+    double y2 = ar1.get_p2().y;
+    double slope1 = 1.0*(ar1.get_p2().y - ar1.get_p1().y) / (ar1.get_p2().x - ar1.get_p1().x);
+    Point r_arm = ar1.r_arm();
+    double r_arm_d = sqrt(pow((x2 - ar1.r_arm().x), 2) + pow((y2 - ar1.r_arm().y), 2));
+    double y3 = 300 + (tan(45 * (PI / 180))) * (50 / (sqrt((1 + pow((tan(45 * (PI / 180))), 2)))));
 
+    cout << "slope "<<m1 << '\n';
+    cout << "angle " << a1 << '\n';
+    cout << "length " << l1 << '\n';
+    cout << "p1 " << ar1.get_p1().x <<','<< ar1.get_p1().y<< '\n';
+    cout << "p2 " << ar1.get_p2().x << ',' << ar1.get_p2().y << '\n';
+    cout << "slope of line is " << slope1<<'\n';
+    cout << " angle manually " << atan(m1)<<'\n';
+    cout << "p of r_arm " << ar1.r_arm().x << ',' << ar1.r_arm().y << '\n';
+    cout << "r_arm length " << r_arm_d << '\n';
+    cout << " tan 45 =" << tan(45*(PI / 180))<< '\n';
+    cout << "tan inverse of 1 is " << atan(1) * 180 / PI << '\n';
+    cout << "y3 = " << y3 << '\n';
+
+
+  
 
 }
 

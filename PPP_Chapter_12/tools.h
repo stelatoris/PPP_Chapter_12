@@ -2,6 +2,7 @@
 
 #include "Graph.h"
 #include "std_lib_facilities.h"
+#define PI 3.14159265
 
 using namespace Graph_lib;
 
@@ -10,10 +11,10 @@ namespace Graph_lib {
     /*
      * Exercise 1
      * 1. Define a class Arc, which draws a part of an ellipse. Hint: fl_arc().
-    */ 
+    */
     struct Arc :Shape {
         Arc(Point p, int w, int h, int b, int e);
-        
+
         void draw_lines() const;
 
     private:
@@ -24,7 +25,7 @@ namespace Graph_lib {
     };
 
     /* ----------------------------------------------------------------------------
-     * 2. Draw a box with rounded corners. Define a class Box, consisting of four 
+     * 2. Draw a box with rounded corners. Define a class Box, consisting of four
      * lines and four arcs.
     */
 
@@ -37,12 +38,29 @@ namespace Graph_lib {
         int width() const { return w; }
         int height() const { return h; }
         int radius() const { return r; }
-        
+
 
     private:
         int w;  // width
         int h;  // height
         int r;  // radius of conrner
     };
+
+    /* ----------------------------------------------------------------------------
+     * 3. Define a class Arrow, which draws a line with an arrowhead.
+    */
+
+    struct Arrow :Shape {
+
+        Arrow(Point tail, Point head);
+        void draw_lines() const;
+        void set_head_size(int head_size) { s = head_size; }
+        void set_head_angle(int angle) { a = angle; }
+
+    private:
+        int a;  // angle of arrow head
+        int s;  // arrow point size 
+    };
+
 }
 
