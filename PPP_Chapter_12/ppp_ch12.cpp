@@ -86,80 +86,7 @@ void Arrow::draw_lines() const
     }
 }
 
-//----------------------------------------------------------------------
-// Exercise 4
 
-Point n(Graph_lib::Rectangle& const r)
-{
-    int x = r.point(0).x + r.width()/2;
-    int y = r.point(0).y;
-
-    return Point{ x,y };
-}
-
-Point s(Graph_lib::Rectangle& const r)
-{
-    int x = r.point(0).x + r.width() / 2;
-    int y = r.point(0).y + r.height();
-
-    return Point{ x,y };
-}
-
-Point e(Graph_lib::Rectangle& const r)
-{
-    int x = r.point(0).x + r.width();
-    int y = r.point(0).y + r.height()/2;
-
-    return Point{ x,y };
-}
-
-Point w(Graph_lib::Rectangle& const r)
-{
-    int x = r.point(0).x;
-    int y = r.point(0).y + r.height() / 2;
-
-    return Point{ x,y };
-}
-
-Point ne(Graph_lib::Rectangle& const r)
-{
-    int x = r.point(0).x + r.width();
-    int y = r.point(0).y;
-
-    return Point{ x,y };
-}
-
-Point nw(Graph_lib::Rectangle& const r)
-{
-    int x = r.point(0).x;
-    int y = r.point(0).y;
-
-    return Point{ x,y };
-}
-
-Point se(Graph_lib::Rectangle& const r)
-{
-    int x = r.point(0).x + r.width();
-    int y = r.point(0).y + r.height();
-
-    return Point{ x,y };
-}
-
-Point sw(Graph_lib::Rectangle& const r)
-{
-    int x = r.point(0).x;
-    int y = r.point(0).y + r.height();
-
-    return Point{ x,y };
-}
-
-Point center(Graph_lib::Rectangle& const r)
-{
-    int x = r.point(0).x + r.width()/2;
-    int y = r.point(0).y + r.height()/2;
-
-    return Point{ x,y };
-}
 
 
 
@@ -227,44 +154,85 @@ try
     win.wait_for_button();
     */
 
-    Graph_lib::Rectangle rec1{ Point{150,100},200,100 };
-    win.attach(rec1);
+    Circle c1{ Point{100,200},50 };
+    win.attach(c1);
 
-    Point pn = n(rec1);
-    Mark mn{ pn,'x' };
-    win.attach(mn);
+    Point pc_center = center(c1);
+    Mark m_c_center{ pc_center,'x' };
+    win.attach(m_c_center);
 
-    Point ps = s(rec1);
-    Mark ms{ ps,'x' };
-    win.attach(ms);
+    Point pcn = n(c1);
+    Mark m_cn{ pcn,'x' };
+    win.attach(m_cn);
 
-    Point pe = e(rec1);
-    Mark me{ pe,'x' };
-    win.attach(me);
+    Point pce = e(c1);
+    Mark m_ce{ pce,'x' };
+    win.attach(m_ce);
 
-    Point pw = w(rec1);
-    Mark mw{ pw,'x' };
-    win.attach(mw);
+    Point pcs = s(c1);
+    Mark m_cs{ pcs,'x' };
+    win.attach(m_cs);
 
-    Point pne = ne(rec1);
-    Mark mne{ pne,'x' };
-    win.attach(mne);
+    Point pcw = w(c1);
+    Mark m_cw{ pcw,'x' };
+    win.attach(m_cw);
 
-    Point pse = se(rec1);
-    Mark mse{ pse,'x' };
-    win.attach(mse);
+    Point pcne = ne(c1);
+    Mark m_cne{ pcne,'x' };
+    win.attach(m_cne);
 
-    Point psw = sw(rec1);
-    Mark msw{ psw,'x' };
-    win.attach(msw);
+    Point pcse = se(c1);
+    Mark m_cse{ pcse,'x' };
+    win.attach(m_cse);
 
-    Point pnw = nw(rec1);
-    Mark mnw{ pnw,'x' };
-    win.attach(mnw);
+    Point pcsw = sw(c1);
+    Mark m_csw{ pcsw,'x' };
+    win.attach(m_csw);
 
-    Point p_center = center(rec1);
-    Mark m_center{ p_center,'x' };
-    win.attach(m_center);
+    Point pcnw = nw(c1);
+    Mark m_cnw{ pcnw,'x' };
+    win.attach(m_cnw);
+
+    win.wait_for_button();
+
+    Graph_lib::Ellipse e1{ Point{300,400},200,100 };
+    win.attach(e1);
+
+    Point pe_center = center(e1);
+    Mark m_e_center{ pe_center,'x' };
+    win.attach(m_e_center);
+    
+    Point pen = n(e1);
+    Mark m_en{ pen,'x' };
+    win.attach(m_en);
+
+    Point pes = s(e1);
+    Mark m_es{ pes,'x' };
+    win.attach(m_es);
+
+    Point pee = e(e1);
+    Mark m_ee{ pee,'x' };
+    win.attach(m_ee);
+
+    Point pew = w(e1);
+    Mark m_ew{ pew,'x' };
+    win.attach(m_ew);
+    
+    Point pene = ne(e1);
+    Mark m_ene{ pene,'x' };
+    win.attach(m_ene);
+
+    Point pese = se(e1);
+    Mark m_ese{ pese,'x' };
+    win.attach(m_ese);
+
+    Point pesw = sw(e1);
+    Mark m_esw{ pesw,'x' };
+    win.attach(m_esw);
+
+    Point penw = nw(e1);
+    Mark m_enw{ penw,'x' };
+    win.attach(m_enw);
 
     win.wait_for_button();
 
