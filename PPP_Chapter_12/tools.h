@@ -31,6 +31,7 @@ namespace Graph_lib {
 
     struct Rounded_box :Shape {
         Rounded_box(Point p, int ww, int hh, int rr);
+        Rounded_box() : w{ 50 }, h{ 50 }, r{ 5 } {}
         void draw_lines() const;
 
         //void draw_lines() const;
@@ -38,6 +39,10 @@ namespace Graph_lib {
         int width() const { return w; }
         int height() const { return h; }
         int radius() const { return r; }
+
+        void set_width(int ww) { w = ww; }
+        void set_height(int hh) { h = hh; }
+        void set_radius(int rr) { r = rr; }
 
 
     private:
@@ -316,6 +321,48 @@ namespace Graph_lib {
 
     //----------------------------------------------------------------------
     // Exercise 6
+    /*
+    *   Write a program that draws a class diagram like the one in §12.6. It will
+    *   simplify matters if you start by defining a Box class that is a rectangle with
+    *   a text label.
+    */
+
+    struct Box :Rounded_box {
+        Box(Point pp, const string& label);
+
+        void draw_lines() const;
+
+        void set_font_size(int s);
+
+    private:
+        Text t;     // Text label with font and size
+        string l;
+    };
+
+    Box::Box(Point p, const string& label)
+        : t{ Point{p.x, p.y}, label }, Rounded_box(p, 100, 50, 5), l{label}
+    {
+        add(p);
+        t.set_font_size(20);        
+    }
+
+    void Box::draw_lines() const
+    {
+        Rounded_box::draw_lines();
+        t.draw_lines();      
+    }
+
+    void Box::set_font_size(int s) 
+    {
+        t.set_font_size(s);
+        //Box::t.point(0) = Point{ 200, 200 };
+        int w=int(s * l.size()*0.75 );
+        int h=int( s * l.size()*0.2 );
+        Box::set_width(w);
+        Box::set_height(h);
+    }
+
+    //----------------------------------------------------------------------
 
 }
 
