@@ -363,6 +363,47 @@ namespace Graph_lib {
     }
 
     //----------------------------------------------------------------------
+    // Exercise 7 uses a function in main cpp 
+    // 
+    //----------------------------------------------------------------------
+    // Exercise 8
+
+    /*
+        8. Define a class Regular_hexagon (a regular hexagon is a six-sided polygon
+        with all sides of equal length). Use the center and the distance from the
+        center to a corner point as constructor arguments.
+    */
+
+    struct Regular_hexagon :Shape {
+
+        Regular_hexagon(Point p, int distance);
+        void draw_lines() const;
+        int get_width() const { return d; }
+        int get_height() const { return point(0).y - point(2).y; }  // get top left point y distance
+
+
+    private:
+        int d;      // distance from center
+        Point c;    // center point
+        void find_points();
+    };  
+  
+
+    void Regular_hexagon::find_points()
+    {
+        for (int x = 0; x <= 360; x += 60) {
+            int p_x{ 0 };
+            int p_y{ 0 };
+
+            p_x = point(0).x - cos(x * (PI / 180)) * d;
+            p_y = point(0).y - sin(x * (PI / 180)) * d;
+
+            add(Point{ p_x ,p_y });
+        }
+    }
+ 
+
+    //----------------------------------------------------------------------
 
 }
 
