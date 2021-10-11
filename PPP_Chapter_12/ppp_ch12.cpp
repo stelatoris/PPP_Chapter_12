@@ -200,6 +200,29 @@ void hexagon_tiles(int distance, Simple_window& win)
     }
 }
 
+//----------------------------------------------------------------------
+// Exercise 10
+/*
+    10. Define a class Regular_polygon. Use the center, the number of sides (>2),
+    and the distance from the center to a corner as constructor arguments.
+*/
+
+Regular_polygon::Regular_polygon(Point p, int n_sides, int distance)
+    : c{ p }, n{ n_sides }, d{ distance }
+{
+    if (n < 3) error("Regular_polygon needs more than 2 sides");
+    add(p);
+    find_points();
+}
+
+void Regular_polygon::draw_lines() const
+{
+    if (color().visibility())
+        for (int i = 2; i < number_of_points(); i += 1)
+            fl_line(point(i - 1).x, point(i - 1).y, point(i).x, point(i).y);
+}
+
+//----------------------------------------------------------------------
 
 int main()
 try
@@ -208,6 +231,7 @@ try
     Point tl{ 100, 100 };
     Simple_window win{ tl, 2000, 1200, "Chapter 13 Ex 9" };
 
+    // Grid --------------------------------------------------
     int x_size = win.x_max();
     int y_size = win.y_max();
 
@@ -232,24 +256,10 @@ try
 
     grid_100x100.set_color(Color::green);
     win.attach(grid_100x100);
+    // end grid----------------------------------------------
 
-    /*
-    // 7. Make an RGB color chart (e.g., search the web for “RGB color chart”).
-    Vector_ref<Graph_lib::Rectangle>vr;
-
-    RGB_Color_Chart(vr, win);
-    //----------------------------------------------------------------------------------
-    */
-
-    hexagon_tiles(100, win);
-    /*Vector_ref<Graph_lib::Regular_hexagon> vr;
-    for (int i = 0; i < 600; i+=100) {         
-        
-        vr.push_back(new Regular_hexagon{ Point{i,200}, 100 });\
-        win.attach(vr[vr.size() - 1]);
-        
-    }*/
-
+    Regular_polygon rp1{ Point{200,200},5,100 };
+    win.attach(rp1);
     win.wait_for_button();   
 }
 

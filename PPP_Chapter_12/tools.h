@@ -404,6 +404,44 @@ namespace Graph_lib {
  
 
     //----------------------------------------------------------------------
+    // Exercise 10
+
+    /*
+        10. Define a class Regular_polygon. Use the center, the number of sides (>2),
+        and the distance from the center to a corner as constructor arguments.
+    */
+
+    struct Regular_polygon :Shape {
+
+        Regular_polygon(Point p, int n_sides, int distance);
+        void draw_lines() const;
+        int get_width() const { return d; }
+        int get_height() const { return point(0).y - point(2).y; }  // get top left point y distance
+
+
+    private:
+        int d;      // distance from center
+        int n;      // number of sides
+        Point c;    // center point
+        void find_points();
+    };
+
+
+    void Regular_polygon::find_points()
+    {
+        for (int x = 0; x <= 360; x += (360/n)) {
+            int p_x{ 0 };
+            int p_y{ 0 };
+
+            p_x = point(0).x - cos(x * (PI / 180)) * d;
+            p_y = point(0).y - sin(x * (PI / 180)) * d;
+
+            add(Point{ p_x ,p_y });
+        }
+    }
+
+
+    //----------------------------------------------------------------------
 
 }
 
