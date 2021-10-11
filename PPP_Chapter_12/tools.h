@@ -418,14 +418,12 @@ namespace Graph_lib {
         int get_width() const { return d; }
         int get_height() const { return point(0).y - point(2).y; }  // get top left point y distance
 
-
     private:
         int d;      // distance from center
         int n;      // number of sides
         Point c;    // center point
         void find_points();
     };
-
 
     void Regular_polygon::find_points()
     {
@@ -439,8 +437,6 @@ namespace Graph_lib {
             add(Point{ p_x ,p_y });
         }
     }
-
-
     //----------------------------------------------------------------------
 
 }

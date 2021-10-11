@@ -223,6 +223,27 @@ void Regular_polygon::draw_lines() const
 }
 
 //----------------------------------------------------------------------
+// Exercise 11
+
+double find_foci_x(Graph_lib::Ellipse& const e)
+{
+    //c2 = a2 - b2
+    int c2 = pow(e.major(),2)- pow(e.minor(), 2);
+
+    return sqrt(c2);
+}
+
+Point point_on_ellipse(Graph_lib::Ellipse& const e)
+{
+    //Any point (x,y) on the path of the circle is x = rsin(rad), y = rcos(rad).
+    
+    int x = e.center().x + ((e.major()) * cos(300 * (PI / 180)));
+    int y = e.center().y + ((e.minor()) * sin(300 * (PI / 180)));
+    Point p{ x,y };
+    return p;
+}
+
+//----------------------------------------------------------------------
 
 int main()
 try
@@ -258,9 +279,44 @@ try
     win.attach(grid_100x100);
     // end grid----------------------------------------------
 
-    Regular_polygon rp1{ Point{200,200},5,100 };
-    win.attach(rp1);
-    win.wait_for_button();   
+    //----------------------------------------------------------------
+    //  Exercise 11
+    //  11. Draw a 300-by-200-pixel ellipse. Draw a 400-pixel-long x axis and a
+    /*  300 - pixel - long y axis through the center of the ellipse.Mark the foci.
+        Mark a point on the ellipse that is not on one of the axes.Draw the two
+        lines from the foci to the point.
+    */
+
+    Graph_lib::Ellipse ell1{ Point{600,400},150,100 };
+    win.attach(ell1);    
+
+    Axis xa{ Axis::x, Point{400,400},400,40,"x axis * 10" };
+    win.attach(xa);
+
+    Axis ya{ Axis::y, Point{600,550},300,30,"y axis * 10" };
+    win.attach(ya);
+
+    Point foci1 = { ell1.center().x + find_foci_x(ell1), ell1.center().y };
+    Point foci2 = { ell1.center().x - find_foci_x(ell1), ell1.center().y };
+        
+    Mark f1{ foci1, 'x' };
+    f1.set_color(Color::red);
+    Mark f2{ foci2, 'x' };
+    f2.set_color(Color::red);
+    win.attach(f1);
+    win.attach(f2);
+
+    Point p1 = point_on_ellipse(ell1);
+    Mark mp1{ p1,'x' };
+    win.attach(mp1);
+
+    Lines l1;
+    l1.add(p1, foci1);
+    l1.add(p1, foci2);
+    l1.set_color(Color::red);
+    win.attach(l1);
+
+    win.wait_for_button();
 }
 
 catch (std::exception& e) {
@@ -269,3 +325,33 @@ catch (std::exception& e) {
 catch (...) {
     std::cerr << "exception\n";
 }
+
+/*
+    // Grid --------------------------------------------------
+    int x_size = win.x_max();
+    int y_size = win.y_max();
+
+    Lines grid_50x50;
+
+    for (int x = 50; x < x_size; x += 50)
+        grid_50x50.add(Point{ x,0 }, Point{ x,y_size });
+
+    for (int y = 50; y < y_size; y += 50)
+        grid_50x50.add(Point{ 0,y }, Point{ x_size,y });
+
+    grid_50x50.set_color(Color::red);
+    win.attach(grid_50x50);
+
+    Lines grid_100x100;
+
+    for (int x = 100; x < x_size; x += 100)
+        grid_100x100.add(Point{ x,0 }, Point{ x,y_size });
+
+    for (int y = 100; y < y_size; y += 100)
+        grid_100x100.add(Point{ 0,y }, Point{ x_size,y });
+
+    grid_100x100.set_color(Color::green);
+    win.attach(grid_100x100);
+    // end grid----------------------------------------------
+
+*/
